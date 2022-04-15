@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Image Classification</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/bootstrap.css">
+    <script src="/static/jquery-3.3.1.min.js"></script>
+    <script src="/static/bootstrap.js"></script>
+</head>
+<body>
+    <div class="container">
+        <br/>
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Fundus image quality assessment</h5>
+                <div class="font-italic small">
+                    This page provides a quality classifier for fundus images (discriminate between HQ and LQ).
+                </div>
+                <br />
+
+                <ul class="nav nav-tabs nav-pills mx-auto border-info" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#tab0" role="tab" data-toggle="tab">Upload</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content hide">
+                    <div role="tabpanel" class="tab-pane active" id="tab0">
+
+                        <div id="file-container">
+                            <br />
+                            <form class="form-horizontal" action="/submit" method="post" enctype="multipart/form-data">
+
+                                <div class="form-group">
+                                    <label class="control-label" for="pwd">Upload Your Image :</label>
+                                    <div>
+                                        <input type="file" class="form-control" 
+                                               placeholder="upload an image" 
+                                               name="my_image" id="my_image"
+                                               accept="image/*">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <br /><hr />
+                        </div>
+
+                        <div class="font-italic small">
+                            <p>Model Specifications</p>
+                            <table class="table">
+
+                                <tr>
+                                    <td>Backbone model</td>
+                                    <td>VGG-19 pretrained on imagenet. </td>
+                                </tr>
+                                <tr>
+                                    <td>Deep learning framework</td>
+                                    <td>keras. Backended by tensorflow-gpu 1.13.1 and GUDA 9.0</td>
+                                </tr>
+                                <tr>
+                                <tr>
+                                    <td>Dataset</td>
+                                    <td>6443 training set (HQ 43.5%, LQ 56.5%) + 200 test set</td>
+                                </tr>
+                                <tr>
+                                    <td>Training settings</td>
+                                    <td>10-fold CV set. Retrain its last 3 FC layers. 10 epochs.</td>
+                                </tr>
+                                <tr>
+                                    <td>Accuracy</td>
+                                    <td>test_acc = <b>95%</b></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Model size</td>
+                                    <td>1012MB (about 1GB)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Prediction Threshold</td>
+                                    <td>0.6</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div>
+                    <div id="predictions" class="container">
+
+                        {% if prediction %}
+                        <img src="{{img_path}}" width="100%">
+
+                        <hr/>
+                        <h5>AI Prediction</h5>
+                        <div class="alert alert-success"> {{prediction}} </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
