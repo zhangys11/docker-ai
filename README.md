@@ -111,7 +111,7 @@ Once inside the vnc desktop, you will see three sh files:
 
 1. jupyter notebook with autosklearrn support.sh 
 
-    This will start up a jupyter notebook on port 8888. Working dir is /root. autosklearn is supported.
+    This will start up a jupyter notebook on port 8888. The default work dir is /root. autosklearn is supported.
 
 2. Fundus Q2 Classifier.sh
 
@@ -126,5 +126,4 @@ Once inside the vnc desktop, you will see three sh files:
     This is a three-class classification task (normal, stage1-2, stage 3-4). The model's accuracy is about 88.8%. We are still working on this model to improve its performance.
 
 4. Users may implement and deploy their own web-based AI apps by reusing this docker image.
-
 
