@@ -74,8 +74,11 @@ Then run the following commands:
     During the installation, lazy_import may raise exception. Use the following solution:
 
 > git clone --recurse-submodules http://github.com/mnmelo/lazy_import.git
+
 > cd lazy_import
+
 > nano setup.py # modify the code to skip reading README.rst
+
 > pip install -e .
 
 Test the autosklearn can be imported properly.
