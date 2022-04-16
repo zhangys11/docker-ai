@@ -1,17 +1,18 @@
 # Abstract
 
-This is a self-developed docker image to provide a common env for deep learning and data science research.
+This is a self-developed docker image to provide a common env for new tech research (e.g., AI, deep learning, data science, block chain, etc.).
 
 Features of image:
 1. GUI in browser (powered by dorowu/ubuntu-desktop-lxde-vnc)
 2. auto-sklearn
 3. flask-based AI apps: Q2 and C3
+4. full stack for dotnet + postgre and the tcm app
 
 # Quickstart
 
-`docker pull zhangyinsheng/ai:bionic`
+`docker pull zhangyinsheng/ai:latest`
 
-`docker run --name ubvnc -v %cd%:/host/ -p 5900:5900 -p 6080:80 -p 8888:8888 zhangyinsheng/ai:bionic`
+`docker run --name ubvnc -v %cd%:/host/ -p 5900:5900 -p 6080:80 -p 8888:8888 zhangyinsheng/ai:latest`
 
 # Build
 
@@ -47,7 +48,7 @@ Then run the following commands:
 
     You may also use apt-get, but generally the apt tool is favored. apt merges functionalities of apt-get and apt-cache
 
-> apt install python3-pip build-essential swig python3-dev nodejs npm git nano gedit python-is-python3
+> apt install python3-pip build-essential swig python3-dev nodejs npm git nano gedit python-is-python3 lsb-core wget
 
 > apt install libjpeg-dev zlib1g-dev 
  
@@ -56,6 +57,8 @@ Then run the following commands:
 > apt install lsof
 
     We will use lsof to kill processes by the port number.
+
+### Install autosklearn and dependencies
 
 > pip3 install tensorflow==1.14.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
@@ -86,6 +89,136 @@ Test the autosklearn can be imported properly.
 > python3
   >> import autosklearn
 
+### Install the nop-tcm app 
+
+Install dotnet and dependencies
+
+Check linux distribution and version:
+
+> lsb_release -a
+
+    LSB Version:    core-9.20170808ubuntu1-noarch:security-9.20170808ubuntu1-noarch
+    Distributor ID: Ubuntu
+    Description:    Ubuntu 18.04.3 LTS
+    Release:        18.04
+    Codename:       bionic
+
+Install dotnet runtime:
+
+> wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+
+> dpkg -i packages-microsoft-prod.deb
+
+> apt update
+
+> apt install -y aspnetcore-runtime-6.0 # or dotnet-sdk-6.0
+
+> dotnet --list-runtimes
+
+    Microsoft.AspNetCore.App 6.0.4 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]
+    Microsoft.NETCore.App 6.0.4 [/usr/share/dotnet/shared/Microsoft.NETCore.App]
+
+> apt install runit-systemd
+
+后续mysql / postgresql需要systemd。systemd是一个全新的init系统和系统管理器，兼容传统的基于SysV init系统的所有主要的Linux发行版。 systemd兼容SysV和LSB init脚本，它作为SysV init系统的直接替代品。 systemd是内核启动并保持PID 1的第一个进程，它是系统运行后的所有进程的的父进程
+
+----
+Install Postgres
+
+> apt install postgresql postgresql-contrib
+
+> service --status-all
+    [ ? ]  alsa-utils
+    [ - ]  cron
+    [ - ]  dbus
+    [ ? ]  hwclock.sh
+    [ ? ]  kmod
+    [ + ]  nginx
+    [ - ]  postgresql
+    [ - ]  procps
+    [ + ]  supervisor
+    [ - ]  sysstat
+    [ - ]  x11-common
+
+> service postgresql restart
+ * Restarting PostgreSQL 10 database server
+
+> su - postgres
+
+> psql
+
+    psql (10.19 (Ubuntu 10.19-0ubuntu0.18.04.1))
+
+> \conninfo
+
+    You are connected to database "postgres" as user "postgres" via socket in "/var/run/postgresql" at port "5432".
+
+> ALTER USER postgres WITH PASSWORD 'postgres'; # NOTE the semicolon
+
+    Set password
+
+> CREATE EXTENSION citext;
+
+    To avoid the "λ:FluentMigrator.Runner.IVersionLoader" error.
+
+> \du
+    
+    postgres  | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+> \l
+> 
+    List of databases
+    nop       | postgres | UTF8     | C.UTF-8 | C.UTF-8 | 
+
+> \q
+
+    quit
+
+> psql nop postgres 
+
+    re-login to nop db with user postgres
+
+-----
+(Alternative) If you don't use postgre, install mssql (much larger):
+
+> add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/18.04/mssql-server-2019.list)"
+
+> apt update
+
+> apt install mssql-server
+
+> /opt/mssql/bin/mssql-conf setup
+
+    Choose an edition of SQL Server:
+    1) Evaluation (free, no production use rights, 180-day limit)
+    2) Developer (free, no production use rights)
+    3) Express (free)
+    4) Web (PAID)
+    5) Standard (PAID)
+    6) Enterprise (PAID) - CPU Core utilization restricted to 20 physical/40 hyperthreaded
+    7) Enterprise Core (PAID) - CPU Core utilization up to Operating System Maximum
+    8) I bought a license through a retail sales channel and have a product key to enter.
+
+    Enter your edition(1-8): 3
+
+------
+Copy the nop folder to /var/www/nop
+
+> cd /var/www/nop
+
+> dotnet --fx-version 6.0.4 Nop.Web.dll
+
+Open http://localhost:5000
+
+Initial Installation Error:
+
+    The 'ff821abb5f08\root' account is not granted with Modify permission on folder '/var/www/nop/bin'. Please configure these permissions.
+    The 'ff821abb5f08\root' account is not granted with Modify permission on folder '/var/www/nop/logs'. Please configure these permissions.
+
+Solution: 
+
+    Create the '/var/www/nop/bin' and '/var/www/nop/logs' folders and set permissions.
+
 ## Copy Host Files
 
 Copy app codes to the container
@@ -95,7 +228,7 @@ Copy app codes to the container
 
     The default working directory is /root.
 
-Similarly, copy the three app startup scripts (*.sh) to the container's desktop.
+Similarly, copy the app startup scripts (*.sh) to the container's desktop.
 
 ## Publish to Docker Hub
 
@@ -105,12 +238,12 @@ Similarly, copy the three app startup scripts (*.sh) to the container's desktop.
 
 # Run
 
-> docker run --name ubvnc -v %cd%:/host/ -p 5900:5900 -p 6080:80 -p 8888:8888 zhangyinsheng/ai:bionic
+> docker run --name ubvnc -v %cd%:/host/ -p 5900:5900 -p 6080:80 -p 8888:8888 zhangyinsheng/ai:latest
 
 On Linux host, should change `%cd%` to `$(pwd)`  
 `-v %cd%:/host/` links host home to the container, for file access and sharing convenience.
 
-Once inside the vnc desktop, you will see three sh files:
+Once inside the vnc desktop, you will see these sh files:
 
 1. jupyter notebook with autosklearrn support.sh 
 
@@ -130,5 +263,10 @@ Once inside the vnc desktop, you will see three sh files:
     This is a three-class classification task (normal, stage1-2, stage 3-4). The model's accuracy is about 88.8%. We are still working on this model to improve its performance.
     The app needs the model weight file to run. [Download Url](https://www.aliyundrive.com/s/ke4sLop3jRK) 
 
-4. Users may implement and deploy their own web-based AI apps by reusing this docker image.
+4. tcm.sh
+
+    This is an online TCM trading demo app based on nop commerce.
+    <img src='tcm.png'>
+
+5. Users may implement and deploy their own apps by reusing this docker image. For flask-based app, refer to Q2 and C3. For dotnet-based app, refer to nop-tcm.
 
