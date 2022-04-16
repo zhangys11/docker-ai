@@ -232,9 +232,9 @@ Similarly, copy the app startup scripts (*.sh) to the container's desktop.
 
 ## Publish to Docker Hub
 
-> docker commit ubvnc zhangyinsheng/ai:bionic
+> docker commit ubvnc zhangyinsheng/ai:latest
 
-> docker push zhangyinsheng/ai:bionic
+> docker push zhangyinsheng/ai:latest
 
 # Run
 
