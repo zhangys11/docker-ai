@@ -48,7 +48,7 @@ Then run the following commands:
 
     You may also use apt-get, but generally the apt tool is favored. apt merges functionalities of apt-get and apt-cache
 
-> apt install python3-pip build-essential swig python3-dev nodejs npm git nano gedit python-is-python3 lsb-core wget
+> apt install python3-pip build-essential swig python3-dev git nano gedit python-is-python3 lsb-core wget
 
 > apt install libjpeg-dev zlib1g-dev 
  
