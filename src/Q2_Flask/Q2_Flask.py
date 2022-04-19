@@ -68,7 +68,7 @@ def about_page():
 
 
 @app.route("/submit", methods = ['GET', 'POST'])
-def get_hours():
+def q2_predict():
 	if request.method == 'POST':
 		img = request.files['my_image']
 
@@ -83,15 +83,10 @@ def get_hours():
 
 '''
 The Flask dev server is not designed to be particularly secure, stable, or efficient. 
-
 By default it runs on localhost (127.0.0.1), change it to app.run(host="0.0.0.0") to run on all your machine's IP addresses.
-
 0.0.0.0 is a special value that you can't use in the browser directly, you'll need to navigate to the actual IP address of the machine on the network. You may also need to adjust your firewall to allow external access to the port.
-
 The Flask quickstart docs explain this in the "Externally Visible Server" section:
-
     If you run the server you will notice that the server is only accessible from your own computer, not from any other in the network. This is the default because in debugging mode a user of the application can execute arbitrary Python code on your computer.
-
     If you have the debugger disabled or trust the users on your network, you can make the server publicly available simply by adding --host=0.0.0.0 to the command line.
 '''
 

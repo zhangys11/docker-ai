@@ -81,7 +81,7 @@ def about_page():
 
 
 @app.route("/submit", methods = ['GET', 'POST'])
-def get_hours():
+def c3_predict():
 	if request.method == 'POST':
 		img = request.files['my_image']
 
