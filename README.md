@@ -5,8 +5,8 @@ This is a self-developed docker image to provide a common env for new tech resea
 Features of image:
 1. GUI in browser (powered by dorowu/ubuntu-desktop-lxde-vnc)
 2. auto-sklearn
-3. flask-based AI apps: Q2 and C3
-4. full stack for dotnet + postgre and the tcm app
+3. flask-based AI apps
+4. dotnet-based app
 
 # Quickstart
 
