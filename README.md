@@ -36,7 +36,7 @@ After download, create a container to test the image:
 
 Then you can access http://127.0.0.1:6080/ in web browser. A vnc remote desktop should show up.
 
-## Install Packages
+## Install Fundamental Packages
 
 Open a terminal inside the vnc desktop or directly launch the CLI from the docker container.
 
@@ -58,7 +58,9 @@ Then run the following commands:
 
     We will use lsof to kill processes by the port number.
 
-### Install autosklearn and dependencies
+copy the app startup scripts (*.sh) to the container's desktop, e.g., use the /host shared dir.
+
+## APP1: autosklearn
 
 > pip3 install tensorflow==1.14.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
@@ -89,7 +91,19 @@ Test the autosklearn can be imported properly.
 > python3
   >> import autosklearn
 
-### Install the nop-tcm app 
+## APP2: Q2_Flask
+
+Copy app codes to the container
+
+> docker cp "host_path_to\Q2_Flask" ubvnc:/root/
+
+## APP3: C3_Flask
+
+Copy app codes to the container
+
+> docker cp "host_path_to\C3_Flask" ubvnc:/root/
+
+## APP4: nop-tcm 
 
 Install dotnet and dependencies
 
@@ -219,22 +233,25 @@ Solution:
 
     Create the '/var/www/nop/bin' and '/var/www/nop/logs' folders and set permissions.
 
-## Copy Host Files
 
-Copy app codes to the container
+## App5: wCLAMs
 
-> docker cp "host_path_to\Q2_Flask" ubvnc:/root/
-> docker cp "host_path_to\C3_Flask" ubvnc:/root/
+> apt install r-base r-base-dev wget libffi-dev
 
-    The default working directory is /root.
+> pip3 install tqdm rpy2==3.3 cffi==1.14.1 pyCLAMs wCLAMs 
 
-Similarly, copy the app startup scripts (*.sh) to the container's desktop.
+Launch R and run `install.packages("ECoL")`
+
+## App6: wDRMetrics
+
+> pip3 install pyDRMetrics wDRMetrics
 
 ## Publish to Docker Hub
 
 > docker commit ubvnc zhangyinsheng/ai:latest
 
 > docker push zhangyinsheng/ai:latest
+
 
 # Run
 
@@ -268,5 +285,15 @@ Once inside the vnc desktop, you will see these sh files:
     This is an online TCM trading demo app based on nop commerce.
     <img src='tcm.png'>
 
-5. Users may implement and deploy their own apps by reusing this docker image. For flask-based app, refer to Q2 and C3. For dotnet-based app, refer to nop-tcm.
+5. wCLAMs.sh
+
+    See https://github.com/zhangys11/wCLAMs
+    <img src='wCLAMs.png'>
+
+5. wDRMetrics.sh
+
+    See https://github.com/zhangys11/wDRMetrics
+    <img src='wDRMetrics.png'>
+
+5. Users may implement and deploy their own apps by reusing this docker image. For flask-based app, refer to Q2, C3, wCLAMs and wDRMetrics. For dotnet-based app, refer to nop-tcm.
 
