@@ -246,6 +246,10 @@ Launch R and run `install.packages("ECoL")`
 
 > pip3 install pyDRMetrics wDRMetrics
 
+## App7: tfjs-app
+
+> pip3 install tfjsa
+
 ## Publish to Docker Hub
 
 > docker commit ubvnc zhangyinsheng/ai:latest
@@ -290,10 +294,14 @@ Once inside the vnc desktop, you will see these sh files:
     See https://github.com/zhangys11/wCLAMs
     <img src='wCLAMs.png'>
 
-5. wDRMetrics.sh
+6. wDRMetrics.sh
 
     See https://github.com/zhangys11/wDRMetrics
     <img src='wDRMetrics.png'>
 
-5. Users may implement and deploy their own apps by reusing this docker image. For flask-based app, refer to Q2, C3, wCLAMs and wDRMetrics. For dotnet-based app, refer to nop-tcm.
+7. tfjsa.sh
+
+    See https://github.com/zhangys11/tfjs-app
+
+8. Users may implement and deploy their own apps by reusing this docker image. For flask-based app, refer to Q2, C3, wCLAMs and wDRMetrics. For dotnet-based app, refer to nop-tcm.
 
