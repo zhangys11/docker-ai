@@ -302,6 +302,7 @@ Once inside the vnc desktop, you will see these sh files:
 7. tfjsa.sh
 
     See https://github.com/zhangys11/tfjs-app
+    <img src='tfjsa.png'>
 
 8. Users may implement and deploy their own apps by reusing this docker image. For flask-based app, refer to Q2, C3, wCLAMs and wDRMetrics. For dotnet-based app, refer to nop-tcm.
 
