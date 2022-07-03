@@ -10,6 +10,10 @@ Features of image:
 
 # Quickstart
 
+Install docker. On linux or raspbian,   
+`curl -fsSL https://get.docker.com -o get-docker.sh`   
+`sudo sh get-docker.sh`
+
 `docker pull zhangyinsheng/ai:latest`
 
 `docker run --name ubvnc -v %cd%:/host/ -p 5900:5900 -p 6080:80 -p 8888:8888 zhangyinsheng/ai:latest`
