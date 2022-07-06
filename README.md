@@ -284,7 +284,7 @@ Once inside the vnc desktop, you will see these sh files:
 3. Fundus C3 Classifier.sh
 
     This will start up a web based fundus image classification on port 5003:
-    <img src='C3.png'>
+    <img src='C3.png' id='C3'>
     This is a three-class classification task (normal, stage1-2, stage 3-4). The model's accuracy is about 88.8%. We are still working on this model to improve its performance.
     The app needs the model weight file to run. [Download Url](https://www.aliyundrive.com/s/ke4sLop3jRK) 
 
